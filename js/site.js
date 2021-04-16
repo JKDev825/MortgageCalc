@@ -398,17 +398,20 @@ function testPaymentCalc() {
     let termIntRate = 0; /* term interest rate: user input */
     let totInterestAmt = 0; /* total dollar amt for full term */
     let termPayMos = 0; /* total number of months: yrs * 12 */
-
-    let mosTermTotal = 0; /* total months: total years divided by 12 */
-
     let totInterestAmt = 0; /* total dollar amt for full term */
-    let totMoPrincAmt = 0; /* total monthly loan amt */
-    let totPercentAmt = 0;
 
+    let totMoPrincAmt = 0; /* monthly loan amt */
+    let totMoInterest = 0; /* monthly interest amt */
+
+
+    // initialize variables
+    termPayMos = totPayYrs * 12; /* get the total months for the term */
+
+    // set up test values
     termPayAmt = 10000.00; /* total loan amount */
     termPayYrs = 5; /* will be from user input */
     termIntRate = 5; /* term interest rate as a decimal; not a true percent */
-    termPayMos = totPayYrs * 12; /* get the total months for the term */
+    totMoInterest = termIntamt / termPayMos; /* monthly interest payment is total interest divided total months */
 
 
     totMoPrincAmt = totPayAmt / (totPayYrs / 12);
