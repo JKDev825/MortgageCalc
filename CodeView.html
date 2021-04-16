@@ -1,0 +1,302 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <title>SuperDog Events</title>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+
+  <!-- Favicons 04-09-21 jdj: custom favicon -->
+  <link href="/img/faviconjd32.png" rel="icon">
+
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+  <link href="css/prismTwilight.css" rel="stylesheet" />
+  <!-- 04-13-21 jdj: from prismjs.com for source code highlighting -->
+
+
+  <!-- Custom CSS jd: added this from getbootstrap nav, view source, find css reference, open, copy paste all into site.css -->
+  <link rel="stylesheet" href="/CSS/site.css">
+
+</head>
+
+<body id="codev">
+
+  <!-- jd: from getbootstrap.com with nav bar, view source html, cut and past from under body the header through footer -->
+
+  <header>
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+      <a class="navbar-brand" href="#">SuperDog Events</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+        aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav mr-auto">
+
+          <a class="nav-link" href="index.html">Application</a>
+
+          <li class="nav-item">
+          <li class="nav-item active">
+            <a class="nav-link" href="CodeView.html">Code Review<span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="CodeGet.html">Code Grab</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="https://jkdev825.netlify.app/" target="_blank">Portfolio</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+  <div class="jumbotron jumbotron-fluid header">
+    <div class="container hero">
+      <div>
+        <br>
+        <h1>Super Dog Events</h1>
+        <!--    <h4 style="color:white">Reverse String Excercise</h4> -->
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Begin page content -->
+  <main role="main" class="flex-shrink-0">
+
+    <div class="container mt-lg-2">
+      <div class="row">
+        <!--        <div class="col mt-1 border border-dark rounded shadow-lg"> -->
+        <div class="col mt-1 rounded shadow-lg">
+          <h2 class="text-center">JavaScript Code Review</h2>
+          <h6> <b>The application leverages an HTML template tag to define a table layout and dynamically populate its
+              content using JavaScript. Instead of static column ids the column counts are derived from JavaScript.
+              This
+              allows flexibility, especially for maintenance, within the site. Columns only need to be defined within
+              the HTML without having
+              to adjust the JavaScript. The exercise also illustrates nested for() loops. From the template, based
+              on the number range, the logic loops through each row for columns identified and populates individual
+              cells. I welcome any questions you may have regarding the source code below.
+            </b></h6>
+          <h5 class="text-md-center"><b>The full application was written using HTML, JavaScript, jQuery, CSS, and
+              Bootstrap v4.
+            </b></h5>
+        </div>
+      </div>
+    </div>
+
+    <!-- This illustrates how to link in primsjs:  This highlights the code copy between <code> tags -->
+    <!-- : see js\prism....js at the bottom -->
+    <!-- : see css\prsmxxx.css in the header above. -->
+    <!-- : This is for the code view on the challenges "see the code" pages.-->
+
+    <div class="container">
+      <hr>
+      <div class="row">
+        <div class="col-12 line-numbers">
+          <pre><code class="language-javascript">/*
+ ** 04-14-21 jdj: Fizz Buzz Game:
+ **              .take two input numbers and build a return table array displaying all numbers within the range.
+ **              .Identify which number(s) are divisible by 3, 5 or both and display Fizz, Buzz, FizzBuzz respectively.
+ **              .In addition allow the user to enter two alternate numbers other than 3 or 5 and use those variables
+ **               to determine Fizz, Buzz or FizzBuzz.
+ **              .HTML hook
+ **             "document.getElementById("submitBtn").addEventListener("click", fz_FizzBuzzTableArray);"
+ **
+ **      Logic:  .Grab the input range numbers to build the integer array.
+ **              .add reasonable and limits on what the user can enter.see userInputBad()
+ **              .take the number and build the array.getRange()
+ **              .Parse the array to identify numbers divisible by the modulo values. DisplayData()
+ */
+
+function fz_FizzBuzzTableArray() {
+
+
+    //  alert("here: 2nd .js")
+    let startNum = parseInt(document.getElementById("numOne").value);
+    let endNum = parseInt(document.getElementById("numTwo").value);
+
+    let outputMsg = document.getElementById("FizzBuzzNotes"); // get the message field object once 
+    outputMsg.innerText = "";
+
+    if (userInputBad(startNum, endNum, outputMsg) == true) {
+        return;
+    }
+
+
+    let numbers = getRange(startNum, endNum);
+    displayData(numbers);
+
+    outputMsg.classList.add("noteBuzzOk");
+    outputMsg.innerText = "Success !";
+}
+
+
+/*
+ ** Function to control basic error handling.
+ ** .don't allow negative range numbers.  Don't care about the mods
+ ** .make sure they're a valid range.
+ ** .limit the table range to 1000
+ ** .for display reasons don't allow the start number past 1million
+ */
+function userInputBad(startNum, endNum, outputMsg) {
+
+
+    // clear any previous values set.  Seems to max out and retain the last style on subsequent .add calls.
+    outputMsg.classList.remove("noteBuzzErr");
+    outputMsg.classList.remove("noteBuzzOk");
+
+    if (startNum < 0 || endNum < 0) {
+        outputMsg.classList.add("noteBuzzErr");
+        outputMsg.innerText = "Please try using positive numbers for the table range.";
+        return true;
+    }
+
+    if (startNum >= endNum) {
+        outputMsg.classList.add("noteBuzzErr");
+        outputMsg.innerText = "Please ensure the start value is less than the end value.";
+        return true;
+    }
+
+    if ((endNum - startNum) > 1000) {
+        outputMsg.classList.add("noteBuzzErr");
+        outputMsg.innerText = "Please try to keep the range under 1,000.";
+        return true;
+    }
+
+    if (startNum > 999999999) {
+        outputMsg.classList.add("noteBuzzErr");
+        outputMsg.innerText = "Please keep the number values under 1 million.";
+        return true;
+    }
+
+    return false;
+}
+// end of userInputBad()
+
+/*
+ ** Build and return an array of numbers from user's range.
+ */
+function getRange(start, end) {
+    let numberArray = [];
+
+    for (let index = start; index <= end; index++) {
+        //fizzbuzz logic will be added here
+
+        numberArray.push(index);
+    }
+
+    return numberArray;
+}
+// end of getRange()
+
+
+/*
+ ** .display the numbers on the page
+ ** .have a repeating template where we don 't know how many rows or columns
+ ** .we will derive, from the html template, the total columns.
+ **
+ ** .when the teamplate is returned the tr,td is returned as a string.
+ ** .you have to parse and count each 
+ ** .clonenode(true) turns into a document and you can use query selectors on it.
+ ** .(true) returns the whole template (tr,tds) where (false) only returns the single tr.
+ ** .importnode can get data NOT on the CURRENT doument.
+ ** .clonenode is the current document.
+ ** .comes back as an array where you can use the .length property for the count.
+  */
+function displayData(numberArray) {
+    const rowTemplate = document.getElementById("FB-Data-Template"); // gets the <tr rows> and <td columns> from the html id= tage
+    const resultsBody = document.getElementById("resultsBody"); // is the area where the table will be displayed
+    let colCount = rowTemplate.content.cloneNode(true).querySelectorAll("td").length;
+    let modFizz = parseInt(document.getElementById("modFizz").value);
+    let modBuzz = parseInt(document.getElementById("modBuzz").value);
+    let cssFBStyle = "";
+
+
+    resultsBody.innerHTML = ""; // clears table after every event
+
+    // loop over the array and the write the value to a page.
+    for (let i = 0; i < numberArray.length; i += colCount) {
+        let dataRow = rowTemplate.content.cloneNode(true); // get the tr and multiple td
+
+        let cols = dataRow.querySelectorAll("td"); // gets the array of td columns
+
+        // loop over the columns.
+        for (let colIndex = 0; colIndex < cols.length; colIndex++) {
+
+            cssFBStyle = ""; // re-initialize each iteration, cell
+            let value = numberArray[i + colIndex]; // error checking for when there are no more numbers in the array
+
+            if (typeof value === "undefined") { // check for out of bounds on the array
+                value = ""; // will write an empty string as were out numbers for the current row.
+            } else if (value % modFizz == 0 && value % modBuzz == 0) {
+                value = "FizzBuzz";
+                cssFBStyle = "boldFizzBuzz";
+            } else if (value % modFizz == 0) {
+                // check for even value and make bold using the modulas operator: divisble by two.
+                //      cols[colIndex].classList.add("boldIt"); // cols is the actual td row with properties so classlist has all the styles.
+                value = "Fizz";
+                cssFBStyle = "boldFizz";
+
+            } else if (value % modBuzz == 0) {
+                // check for even value and make bold using the modulas operator: divisble by two.
+                //   cols[colIndex].classList.add("boldIt"); // cols is the actual td row with properties so classlist has all the styles.
+                value = "Buzz";
+                cssFBStyle = "boldBuzz";
+            }
+
+            cols[colIndex].textContent = value; // textcontent is the areaa between the <td>textcontent</td>
+            if (cssFBStyle != "") {
+                cols[colIndex].classList.add(cssFBStyle); // cols is the actual td row with properties so classlist has all the styles.
+            }
+        }
+
+        /*
+         ** commits back to the page for each row and column
+         ** and will be <tr> <td> <td> <td> <td> .etc
+         */
+        resultsBody.appendChild(dataRow); // commits back to the page for each row and column 
+    }
+} // end of displayData()
+
+/*
+ ** end of site.js
+ */</code></pre>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+
+  <footer class="footer">
+    <div class="container ml-1">
+      <span class="text-muted">&copy; Copyright jkDev825 2021</span>
+    </div>
+  </footer>
+
+
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
+  </script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
+  </script>
+
+  <script src="js/prismTwilight.js"></script> <!-- 04-13-21 jdj: from prismjs.com to highlight displayed source code -->
+
+</body>
+
+</html>

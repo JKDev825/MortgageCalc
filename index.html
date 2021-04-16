@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <title>Morgage Calculator</title>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+
+  <!-- Favicons 04-09-21 jdj: custom favicon -->
+  <link href="/img/faviconjd32.png" rel="icon">
+
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+  <!-- Custom CSS jd: added this from getbootstrap nav, view source, find css reference, open, copy paste all into site.css -->
+  <link rel="stylesheet" href="/CSS/site.css">
+
+
+</head>
+
+
+<!-- <body id="index"> -->
+
+<body id="index" onload="buildDropDown()">
+
+  <!-- jd: from getbootstrap.com with nav bar, view source html, cut and past from under body the header through footer -->
+
+  <header>
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+      <a class="navbar-brand" href="#">Mortgage Calculator</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+        aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav mr-auto">
+
+          <li class="nav-item active">
+            <a class="nav-link" href="index.html">Application</a>
+
+          <li class="nav-item">
+            <a class="nav-link" href="CodeView.html">Code Review</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="CodeGet.html">Code Grab</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="https://jkdev825.netlify.app/" target="_blank">Portfolio</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+  <div class="jumbotron jumbotron-fluid header">
+    <div class="container hero">
+      <div>
+        <br>
+        <!--         <h1 style="color:white">App Skel2</h1> depending on backgroup text to be black or white -->
+        <h1>Mortgage Calculator</h1>
+        <!--    <h4 style="color:white">Reverse String Excercise</h4> -->
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Begin page content -->
+  <!--  <main role="main" class="flex-shrink-0"> -->
+  <main role="main" class="container-fluid">
+
+    <div class="container mt-lg-2">
+      <div class="row">
+        <!--        <div class="col mt-1 border border-dark rounded shadow-lg"> -->
+        <div class="col mt-1 rounded shadow-lg">
+          <h2 class="text-center">Mortgage Calculator Application</h2>
+          <h6><b>Super Dog Events represents a fictional company managing national events. Their requirements involve
+              displaying attendance statistics. The site presents varied statistics by city. The initial event list
+              represents current events. The site allows for
+              you to add additional events.</b></h6>
+          <h5 class="text-md-center"><b>Please try for yourself</b></h5>
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-6">
+          <hr>
+          <div class="btn-group">
+            <button type="button" class="btn btn-secondary">Pick a location</button>
+            <button type="button" class="btn btn-secondary dropdown-toggle dropdown-togle dropdown-toggle-split"
+              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <span class="sr-only">Toogle Dropdown</span>
+            </button>
+            <div id="eventDropDown" class="dropdown-menu">
+              <!-- template for dropdown -->
+            </div>
+          </div>
+          <table class="table table-striped">
+            <tr>
+              <th colspan="2" id="statsHeader">Stats For All Events</th>
+            </tr>
+            <tr>
+              <td>Total Attendance</td>
+              <td id="total">100</td>
+            </tr>
+            <tr>
+              <td>Average Attendance</td>
+              <td id="average">100</td>
+            </tr>
+            <tr>
+              <td>Most Attended</td>
+              <td id="most">100</td>
+            </tr>
+            <tr>
+              <td>Least Attended</td>
+              <td id="least">100</td>
+            </tr>
+          </table>
+        </div> <!-- end of col1 -->
+        <div class="col-sm-6 order-first order-md-2 text-center">
+          <img src="/img/mortgageCalculator.jpg" class="img-fluid p-2 mt-3 rounded-corners" width="400" height="500">
+        </div> <!-- end of col2 -->
+      </div> <!-- end of row -->
+    </div> <!-- end of container-->
+
+
+    <div class="container">
+      <hr>
+
+      <button type="button" class="btn-secondary" data-toggle="modal" data-target="#addEvent">Add Event</button>
+      <br>
+      <br>
+      <table class="table table-striped" id="EventTable">
+        <thead class="thead-dark">
+          <tr>
+            <th>Event</th>
+            <th>City</th>
+            <th>State</th>
+            <th>Attendance</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody id="resultsBody">
+          <!-- data for the event table book will go here -->
+        </tbody>
+      </table>
+
+      <div class="modal" id="addEvent">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <!-- makes content all white for all in between -->
+            <div class="modal-header">
+              <h4 class="modal-title">Add a new event</h4>
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+              <form id="newAEventForm">
+                <div class="form-group">
+                  <label for="newEvent">Event Name</label>
+                  <input type="text" class="form-control" id="newEvent" placeholder="Event Name">
+                </div>
+                <div class="form-group">
+                  <label for="newCity">City</label>
+                  <input type="text" class="form-control" id="newCity" placeholder="City">
+                </div>
+                <div class="form-group">
+                  <label for="newState">State</label>
+                  <input type="text" class="form-control" id="newState" placeholder="Two letter state"
+                    pattern="[A-Z]{2}">
+                </div>
+                <div class="form-group">
+                  <label for="newAttendance">Attendance</label>
+                  <input type="number" class="form-control" id="newAttendance" placeholder="Total Attendees">
+                </div>
+                <div class="form-group">
+                  <label for="newDate">Date</label>
+                  <input type="date" class="form-control" id="newDate" pattern="[0-9]{1,2}/[0-9]{1,2}-[0-9]{4}"
+                    placeholder="mm/dd/ccyy">
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-success" onclick="saveEventFormData()"
+                data-dismiss="modal">Save</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+
+  </main>
+
+  <footer class="footer">
+    <div class="container ml-1">
+      <span class="text-muted">&copy; Copyright jkDev825 2021</span>
+    </div>
+  </footer>
+
+
+  <!-- template logic take from jsloops project   -->
+  <!--  js from site.js connects below at the bottom with script element and document object getelementbyid and function call  -->
+  <!--  after "click"  -->
+  <!--   .must add custom javascript at the bottom of the body and is last following the site.js reference. -->
+  <!--   .the template code below defines what the table data rows will look like and is accessible to the js  -->
+  <!--   .note when creating a new site, to debug, a .vscode folder will be created with a launch.json file  -->
+  <!--   . within the file remove the "file:" line   -->
+  <!--   .add a "url": "http://127.0.0.1:5500/", entry where the ip matches the live server ip in testing -->
+  <!--   .add a "webRoot": "${workspaceFolder}" after without a comman  -->
+  <!--   -->
+  <!--   -->
+  <!--   -->
+
+  <!-- templates are hidden from the browser's view and won't render on the page -->
+  <!-- template below shows 5 columns.  js in site.js will derive the total columns from the template -->
+  <template id="Event-Data-Template">
+    <tr>
+      <td id="eventname"></td>
+      <td id="city"></td>
+      <td id="state"></td>
+      <td id="attendance"></td>
+      <td id="date"></td>
+    </tr>
+  </template>
+
+
+
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
+  </script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
+  </script>
+
+
+  <script src="js/site.js"></script>
+
+
+  <!-- Button hook from html into js -->
+  <!-- for taco cat js
+ <script>
+    document.getElementById("tacoBtn").addEventListener("click", tc_reverseString);
+  </script>
+-->
+
+  <!-- 04-15-21 jdj:  Comment out but keep for reference  Direct calls to JS above from buttons onclick
+  <script>
+    document.getElementById("submitBtn").addEventListener("click", fz_FizzBuzzTableArray);
+  </script>
+-->
+
+</body>
+
+</html>

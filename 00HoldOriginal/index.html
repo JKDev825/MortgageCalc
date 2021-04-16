@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <title>FizzBuzz App</title>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+
+  <!-- Favicons 04-09-21 jdj: custom favicon -->
+  <link href="/img/faviconjd32.png" rel="icon">
+
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+  <!-- Custom CSS jd: added this from getbootstrap nav, view source, find css reference, open, copy paste all into site.css -->
+  <link rel="stylesheet" href="/CSS/site.css">
+
+  <!-- 04-09-21 jdj: Added for challenges -->
+  <!--Day 1 -->
+  <link rel="stylesheet" href="/CSS/fizzbuzz.css">
+  <!--Day 2-->
+  <link rel="stylesheet" href="/CSS/summfear.css">
+  <!--Day 3-->
+  <link rel="stylesheet" href="/CSS/tacocat.css">
+  <!--Day 4-->
+  <link rel="stylesheet" href="/CSS/sunset.css">
+  <!--Day 5-->
+  <link rel="stylesheet" href="/CSS/superdog.css">
+
+
+
+</head>
+
+<body id="index">
+
+  <!-- jd: from getbootstrap.com with nav bar, view source html, cut and past from under body the header through footer -->
+
+  <header>
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+      <a class="navbar-brand" href="#">FizzBuzz App</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+        aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="App.html">The App</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="CodeView.html">How this Works</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="CodeGet.html">Grab The Code</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="About.html">About</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+  <!--   .this here, between the header and main starts on the screen just under the nav bar -->
+  <!--   .requires specific css to work where a .jpg is all referenced. see jsloops site.css -->
+  <!--   .see the header classes within that css.  It can be merged here but always check for conflicts  -->
+
+  <!-- commenting this out: see notes above
+  <div class="jumbotron jumbotron-fluid header">
+    <div class="container hero">
+      <div>
+        <h1>js loops</h1>
+        <h4>Learing about js</h4>
+      </div>
+    </div>
+  -->
+
+
+
+
+  <!-- Begin page content -->
+  <main role="main" class="flex-shrink-0">
+
+    <!-- taken from jsloop projects as a starting point or a form and area to populate table results -->
+
+
+    <div class="container">
+      <h1>Enter in two numbers and print the range</h1>
+      <hr>
+      <form>
+        <div class="form-row">
+          <div class="col-auto">
+            <label>Enter Start number</label>
+            <input type="number" id="numOne" value=1>
+          </div>
+          <div class="col-auto">
+            <label>Enter Second number</label>
+            <input type="number" id="numTwo" value=10>
+          </div>
+          <div class="col text-right">
+            <button id="submitBtn" type="button" class="btn btn-danger">Submit</button>
+          </div>
+        </div>
+      </form>
+      <table class="table table-striped" id="resultTable">
+        <thead class="thead-dark">
+          <tr>
+            <th colspan="10">Results</th> <!-- one column over the width of table -->
+          </tr>
+        </thead>
+        <tbody id="resultsBody">
+          <!-- data will go here -->
+        </tbody>
+      </table>
+    </div>
+
+
+
+
+
+
+
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <span class="text-muted">&copy; jkDev825 2021</span>
+    </div>
+  </footer>
+
+
+  <!-- template logic take from jsloops project   -->
+  <!--  js from site.js connects below at the bottom with script element and document object getelementbyid and function call  -->
+  <!--  after "click"  -->
+  <!--   .must add custom javascript at the bottom of the body and is last following the site.js reference. -->
+  <!--   .the template code below defines what the table data rows will look like and is accessible to the js  -->
+  <!--   .note when creating a new site, to debug, a .vscode folder will be created with a launch.json file  -->
+  <!--   . within the file remove the "file:" line   -->
+  <!--   .add a "url": "http://127.0.0.1:5500/", entry where the ip matches the live server ip in testing -->
+  <!--   .add a "webRoot": "${workspaceFolder}" after without a comman  -->
+  <!--   -->
+  <!--   -->
+  <!--   -->
+
+  <!-- hides from the browser's view and won't render on the page -->
+  <!-- multiple rows below will be shoved above -->
+  <template id="Data-Template">
+    <tr>
+      <td id="col1"></td>
+      <td id="col2"></td>
+      <td id="col3"></td>
+      <td id="col4"></td>
+      <td id="col5"></td>
+      <td id="col6"></td>
+      <td id="col7"></td>
+      <td id="col8"></td>
+      <td id="col9"></td>
+      <td id="col10"></td>
+    </tr>
+  </template>
+
+
+
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
+  </script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
+  </script>
+
+
+  <script src="js/site.js"></script>
+
+  <!-- custom js for button event -->
+  <script>
+    document.getElementById("submitBtn").addEventListener("click", printNumbers);
+  </script>
+
+
+
+</body>
+
+</html>
