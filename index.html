@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-  <title>Morgage Calculator</title>
+  <title>Mortgage Loan Calculator</title>
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -32,7 +32,7 @@
   <header>
     <!-- Fixed navbar -->
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-      <a class="navbar-brand" href="#">Mortgage Calculator</a>
+      <a class="navbar-brand" href="#">Mortgage Loan Calculator</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
         aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -62,7 +62,7 @@
       <div>
         <br>
         <!--         <h1 style="color:white">App Skel2</h1> depending on backgroup text to be black or white -->
-        <h1>Mortgage Calculator</h1>
+        <h1>Mortgage Loan Calculator</h1>
         <!--    <h4 style="color:white">Reverse String Excercise</h4> -->
       </div>
     </div>
@@ -78,10 +78,8 @@
         <!--        <div class="col mt-1 border border-dark rounded shadow-lg"> -->
         <div class="col mt-1 rounded shadow-lg">
           <h2 class="text-center">Mortgage Calculator Application</h2>
-          <h6><b>Super Dog Events represents a fictional company managing national events. Their requirements involve
-              displaying attendance statistics. The site presents varied statistics by city. The initial event list
-              represents current events. The site allows for
-              you to add additional events.</b></h6>
+          <h6><b>Simple but functional application to review loan payment installments and interest.....
+            </b></h6>
           <h5 class="text-md-center"><b>Please try for yourself</b></h5>
         </div>
       </div>
@@ -90,63 +88,85 @@
 
     <div class="container">
       <div class="row">
-        <div class="col-sm-6">
-    <!--      <hr> -->
-          <div class="btn-group">
-            <button type="button" class="btn btn-secondary">Pick a location</button>
-            <button type="button" class="btn btn-secondary dropdown-toggle dropdown-togle dropdown-toggle-split"
-              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <span class="sr-only">Toogle Dropdown</span>
-            </button>
-            <div id="eventDropDown" class="dropdown-menu">
-              <!-- template for dropdown -->
+        <div class="col-lg-4 mb-4">
+          <!-- Input Fields -->
+          <div class="card shadow mb-4 rounded-corners">
+
+            <div class="card-header py-3">
+              <h6 class="font-weight-bold text-center text-primary">LOAN CALCULATOR</h6>
+            </div>
+
+            <form class="card-body row1Card my-bg-color">
+              <div class="row">
+                <div class="col text-center">
+                  <h6 class="font-weight-bold">Loan Amount ($): </h6>
+                  <input type="text" placeholder="Total to Borrow" class="textfield" id="loanAmount">
+                </div>
+              </div>
+              <br />
+              <div class="row">
+                <div class="col text-center">
+                  <h6 class="font-weight-bold">Enter Term (Months): </h6>
+                  <input type="text" placeholder="Total Months" class="textfield" id="loanTerm">
+                </div>
+              </div>
+              <br />
+              <div class="row">
+                <div class="col text-center">
+                  <h6 class="font-weight-bold name1">Enter Interest Rate (%): </h6>
+                  <input type="text" placeholder="Interest Rate" class="textfield" id="loanInterest">
+                </div>
+              </div>
+              <br />
+              <div class="row">
+                <div class="col text-center">
+                  <button type="button" class="btn btn-primary" id="calc">Calculate</button>
+                </div>
+              </div>
+            </form>
+
+          </div>
+        </div>
+        <div class="col-lg-8 rounded shadow-lg">
+
+          <h2 class="text-center">Your Monthly Payments</h2>
+          <p><b> Notes:</b> <span id="resultMonTotAmt">Total Mon payment output field here</span></p>
+          <div class="row">
+            <div class="col">
+              <p><b> Col2 Row1:</b> <span id="resultPlacemarker">placemarker row</span></p>
             </div>
           </div>
-          <table class="table table-striped">
-            <tr>
-              <th colspan="2" id="statsHeader">Stats For All Events</th>
-            </tr>
-            <tr>
-              <td>Total Attendance</td>
-              <td id="total">100</td>
-            </tr>
-            <tr>
-              <td>Average Attendance</td>
-              <td id="average">100</td>
-            </tr>
-            <tr>
-              <td>Most Attended</td>
-              <td id="most">100</td>
-            </tr>
-            <tr>
-              <td>Least Attended</td>
-              <td id="least">100</td>
-            </tr>
-          </table>
-        </div> <!-- end of col1 -->
-    <!--    <div class="col-sm-6 order-first order-md-2 align-items-center justify-content-center"> -->
-        <div class="col-sm-6">
-     <!--     <img src="/img/mortgageCalculator.jpg" class="img-fluid p-2 mt-5 rounded-corners" width="400" height="500"> -->
-          <img src="/img/mortgageCalculator.jpg" class="img-fluid rounded-corners img-center" width="400" height="500">
-        </div> <!-- end of col2 -->
-      </div> <!-- end of row -->
-    </div> <!-- end of container-->
-
+          <div class="row">
+            <div class="col">
+              <p><b> Col2 Row2:</b> <span id="resultPrincTotAmt">Total principal output field here</span></p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <p><b> Col2 Row3 Total Interest:</b> <span id="resultPrincTotAmt">Total interest output field
+                  here</span></p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <p><b> Col2 Row4 Total Cost:</b> <span id="resultPrincTotAmt">Total cost output field here</span></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <div class="container">
       <hr>
-
-      <button type="button" class="btn-secondary" data-toggle="modal" data-target="#addEvent">Add Event</button>
-      <br>
-      <br>
       <table class="table table-striped" id="EventTable">
         <thead class="thead-dark">
           <tr>
-            <th>Event</th>
-            <th>City</th>
-            <th>State</th>
-            <th>Attendance</th>
-            <th>Date</th>
+            <th>Month</th>
+            <th>Payment</th>
+            <th>Principal</th>
+            <th>Interest</th>
+            <th>Total Interest</th>
+            <th>Balance</th>
           </tr>
         </thead>
         <tbody id="resultsBody">
@@ -227,11 +247,12 @@
   <!-- template below shows 5 columns.  js in site.js will derive the total columns from the template -->
   <template id="Event-Data-Template">
     <tr>
-      <td id="eventname"></td>
-      <td id="city"></td>
-      <td id="state"></td>
-      <td id="attendance"></td>
-      <td id="date"></td>
+      <td id="month"></td>
+      <td id="payment"></td>
+      <td id="principal"></td>
+      <td id="interest"></td>
+      <td id="totinterest"></td>
+      <td id="balance"></td>
     </tr>
   </template>
 

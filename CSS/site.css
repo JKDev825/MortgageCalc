@@ -68,6 +68,12 @@ body {
   margin-bottom: 60px;
 }
 
+.my-bg-color {
+  background: #F0F2F0;
+  background: -webkit-linear-gradient(to right, #000C40, #F0F2F0);
+  background: linear-gradient(to right, #757a92, #F0F2F0);
+}
+
 #index {
   background: #6D6027;
   /* fallback for old browsers */
