@@ -77,13 +77,8 @@
         <div class="col mt-1 rounded shadow-lg">
           <h2 class="text-center">JavaScript Code Review</h2>
           <h6> <b>The application leverages an HTML template tag to define a table layout and dynamically populate its
-              content using JavaScript. Instead of static column ids the column counts are derived from JavaScript.
-              This
-              allows flexibility, especially for maintenance, within the site. Columns only need to be defined within
-              the HTML without having
-              to adjust the JavaScript. The exercise also illustrates nested for() loops. From the template, based
-              on the number range, the logic loops through each row for columns identified and populates individual
-              cells. I welcome any questions you may have regarding the source code below.
+              content using JavaScript. The coupling of HTML with the JavaScript is fairly standard where a form is used
+              to collect three inputs from payment term information is displayed based on the loan criteria.
             </b></h6>
           <h5 class="text-md-center"><b>The full application was written using HTML, JavaScript, jQuery, CSS, and
               Bootstrap v4.
@@ -99,36 +94,36 @@
 
 
 
-   <div class="container">
-     <hr>
-     <div class="row">
-       <div class="col-12 col-sm-12 col-md-12 col-lg-12">
-         <div class="card bg-light rounded-corners shadow-lg border-dark">
-           <div class="card-header bg-dark">
-             <ul class="nav nav-pills card-header-tabs bg-dark" id="source-list" role="tablist">
-               <li class="nav-item">
-                 <a class="nav-link active" id="tab-src1" data-toggle="tab" href="#source-1" role="tab"
-                   aria-controls="instructions" aria-selected="true"><b>Data</b></a>
-               </li>
-               <li class="nav-item ">
-                 <a class="nav-link" id="tab-src2" data-toggle="tab" href="#source-2" role="tab"
-                   aria-controls="instruction-card2" aria-selected="false"><b>DropdownMenu</b></a>
-               </li>
-               <li class="nav-item">
-                 <a class="nav-link" id="tab-src3" data-toggle="tab" href="#source-3" role="tab"
-                   aria-controls="event-details" aria-selected="false">DataUpdates</a>
-               </li>
-             </ul>
-           </div>
-           <!--       <div class="card-body" style="background-color: rgba(9, 56, 30, 0.555);"> -->
-           <div class="card-body" style="background-color: rgba(9, 56, 30, 0.555);">
+    <div class="container">
+      <hr>
+      <div class="row">
+        <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+          <div class="card bg-light rounded-corners shadow-lg border-dark">
+            <div class="card-header bg-dark">
+              <ul class="nav nav-pills card-header-tabs bg-dark" id="source-list" role="tablist">
+                <li class="nav-item">
+                  <a class="nav-link active" id="tab-src1" data-toggle="tab" href="#source-1" role="tab"
+                    aria-controls="instructions" aria-selected="true"><b>Data</b></a>
+                </li>
+                <li class="nav-item ">
+                  <a class="nav-link" id="tab-src2" data-toggle="tab" href="#source-2" role="tab"
+                    aria-controls="instruction-card2" aria-selected="false"><b>DropdownMenu</b></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" id="tab-src3" data-toggle="tab" href="#source-3" role="tab"
+                    aria-controls="event-details" aria-selected="false">DataUpdates</a>
+                </li>
+              </ul>
+            </div>
+            <!--       <div class="card-body" style="background-color: rgba(9, 56, 30, 0.555);"> -->
+            <div class="card-body" style="background-color: rgba(9, 56, 30, 0.555);">
 
-             <div class="tab-content mt-3">
-               <div class="tab-pane active" id="source-1" role="tabpanel">
-                 <h6 class="card-title">Data access functions to isolate JSON calls. Initial data display from a static
-                   object array. Local storage is used thereafter for updates. </h5>
-                   <div class="col-12 line-numbers">
-                     <pre><code class="language-javascript">/*
+              <div class="tab-content mt-3">
+                <div class="tab-pane active" id="source-1" role="tabpanel">
+                  <h6 class="card-title">Data access functions to isolate JSON calls. Initial data display from a static
+                    object array. Local storage is used thereafter for updates. </h5>
+                    <div class="col-12 line-numbers">
+                      <pre><code class="language-javascript">/*
 ** .js entry point.
 ** .get initial dataset.
 ** .set the filteredEvents[] array for stats display.
@@ -181,18 +176,18 @@ function putEventData(dataSet) {
 
 } /* end of putEventData() */
  */</code></pre>
-                   </div>
-               </div>
+                    </div>
+                </div>
 
-               <div class="tab-pane fade" id="source-2" role="tabpanel" aria-labelledby="instruction-card2">
-                 <h6 class="card-title">The drop down menu lists unique locations from the full dataset. It filters
-                   by location and builds the HTML and callback into the JavaScript using onclick=getEvent().
-                 </h6>
+                <div class="tab-pane fade" id="source-2" role="tabpanel" aria-labelledby="instruction-card2">
+                  <h6 class="card-title">The drop down menu lists unique locations from the full dataset. It filters
+                    by location and builds the HTML and callback into the JavaScript using onclick=getEvent().
+                  </h6>
 
-                 <div class="container">
-                   <div class="row stats-row">
-                     <div class="col line-numbers">
-                       <pre><code class="language-javascript">/*
+                  <div class="container">
+                    <div class="row stats-row">
+                      <div class="col line-numbers">
+                        <pre><code class="language-javascript">/*
  ** .HTML entry point from body tage onload=buildDropDown()
  ** .controls build of the drop down menu for location selections.
  ** .Update the statistics and full datset displays.
@@ -235,22 +230,22 @@ function buildDropDownMenu() {
 } /* end of buildDropDownMenu */
 </code></pre>
 
-                     </div>
-                   </div>
-                 </div>
-               </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
 
-               <div class="tab-pane fade" id="source-3" role="tabpanel" aria-labelledby="deals-tab">
-                 <h6 class="card-title">An HTML form class was used to collect new event data. New data is appended
-                   onto the existing dataset. Logic was written to inspect the entered location against the existing
-                   location statistics table display. If they are the same the location specific values display is
-                   updated upon save. New locations will be added to the next dropdown menu and total statistics
-                   updated.</h5>
+                <div class="tab-pane fade" id="source-3" role="tabpanel" aria-labelledby="deals-tab">
+                  <h6 class="card-title">An HTML form class was used to collect new event data. New data is appended
+                    onto the existing dataset. Logic was written to inspect the entered location against the existing
+                    location statistics table display. If they are the same the location specific values display is
+                    updated upon save. New locations will be added to the next dropdown menu and total statistics
+                    updated.</h5>
 
-                   <div class="container">
-                     <div class="row stats-row">
-                       <div class="col line-numbers"></div>
-                       <pre><code class="language-javascript">
+                    <div class="container">
+                      <div class="row stats-row">
+                        <div class="col line-numbers"></div>
+                        <pre><code class="language-javascript">
 /*
  ** .user save new event form.
  ** .form validation is NOT being applied for this exercise.
@@ -320,15 +315,15 @@ return null;
 } /* end of setFilteredEvents() */
 </code></pre>
 
-                     </div>
-                   </div>
-               </div>
-             </div>
-           </div>
-         </div> <!-- card class end -->
-       </div> <!-- col end -->
-     </div> <!-- row end-->
-   </div> <!-- container end -->
+                      </div>
+                    </div>
+                </div>
+              </div>
+            </div>
+          </div> <!-- card class end -->
+        </div> <!-- col end -->
+      </div> <!-- row end-->
+    </div> <!-- container end -->
 
 
 
