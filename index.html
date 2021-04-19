@@ -25,7 +25,7 @@
 
 <!-- <body id="index"> -->
 
-<body id="index" onload="buildDropDown()">
+<body id="index">
 
   <!-- jd: from getbootstrap.com with nav bar, view source html, cut and past from under body the header through footer -->
 
@@ -120,105 +120,66 @@
               <br />
               <div class="row">
                 <div class="col text-center">
-                  <button type="button" class="btn btn-primary" id="calc">Calculate</button>
+                  <button type="button" class="btn btn-primary" id="calc" onclick="generatePaymentPlan()"">Calculate</button>
                 </div>
               </div>
             </form>
 
           </div>
         </div>
-        <div class="col-lg-8 rounded shadow-lg">
+        <div class=" col-lg-8 rounded shadow-lg">
 
-          <h2 class="text-center">Your Monthly Payments</h2>
-          <p><b> Notes:</b> <span id="resultMonTotAmt">Total Mon payment output field here</span></p>
-          <div class="row">
-            <div class="col">
-              <p><b> Col2 Row1:</b> <span id="resultPlacemarker">placemarker row</span></p>
-            </div>
+                    <h2 class="text-center">Your Monthly Payments</h2>
+                    <p><b> Notes:</b> <span id="resultMonTotAmt">Total Mon payment output field here</span></p>
+                    <div class="row">
+                      <div class="col">
+                        <p><b> Col2 Row1:</b> <span id="resultPlacemarker">placemarker row</span></p>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col">
+                        <p><b> Col2 Row2:</b> <span id="resultPrincTotAmt">Total principal output field here</span></p>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col">
+                        <p><b> Col2 Row3 Total Interest:</b> <span id="resultPrincTotAmt">Total interest output field
+                            here</span></p>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col">
+                        <p><b> Col2 Row4 Total Cost:</b> <span id="resultPrincTotAmt">Total cost output field
+                            here</span></p>
+                      </div>
+                    </div>
+                </div>
+              </div>
           </div>
-          <div class="row">
-            <div class="col">
-              <p><b> Col2 Row2:</b> <span id="resultPrincTotAmt">Total principal output field here</span></p>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col">
-              <p><b> Col2 Row3 Total Interest:</b> <span id="resultPrincTotAmt">Total interest output field
-                  here</span></p>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col">
-              <p><b> Col2 Row4 Total Cost:</b> <span id="resultPrincTotAmt">Total cost output field here</span></p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
 
-    <div class="container">
-      <hr>
-      <table class="table table-striped" id="EventTable">
-        <thead class="thead-dark">
-          <tr>
-            <th>Month</th>
-            <th>Payment</th>
-            <th>Principal</th>
-            <th>Interest</th>
-            <th>Total Interest</th>
-            <th>Balance</th>
-          </tr>
-        </thead>
-        <tbody id="resultsBody">
-          <!-- data for the event table book will go here -->
-        </tbody>
-      </table>
+          <div class="container">
+            <hr>
+            <div class="card shadow mb-4 rounded-corners">
 
-      <div class="modal" id="addEvent">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <!-- makes content all white for all in between -->
-            <div class="modal-header">
-              <h4 class="modal-title">Add a new event</h4>
-              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <table class="table table-striped" id="EventTable">
+                <thead class="thead-dark">
+                  <tr>
+                    <th>Month</th>
+                    <th>Payment</th>
+                    <th>Principal</th>
+                    <th>Interest</th>
+                    <th>Total Interest</th>
+                    <th>Balance</th>
+                  </tr>
+                </thead>
+                <tbody id="resultsBody">
+                  <!-- data for the event table book will go here -->
+                </tbody>
+              </table>
             </div>
-            <div class="modal-body">
-              <form id="newAEventForm">
-                <div class="form-group">
-                  <label for="newEvent">Event Name</label>
-                  <input type="text" class="form-control" id="newEvent" placeholder="Event Name">
-                </div>
-                <div class="form-group">
-                  <label for="newCity">City</label>
-                  <input type="text" class="form-control" id="newCity" placeholder="City">
-                </div>
-                <div class="form-group">
-                  <label for="newState">State</label>
-                  <input type="text" class="form-control" id="newState" placeholder="Two letter state"
-                    pattern="[A-Z]{2}">
-                </div>
-                <div class="form-group">
-                  <label for="newAttendance">Attendance</label>
-                  <input type="number" class="form-control" id="newAttendance" placeholder="Total Attendees">
-                </div>
-                <div class="form-group">
-                  <label for="newDate">Date</label>
-                  <input type="date" class="form-control" id="newDate" pattern="[0-9]{1,2}/[0-9]{1,2}-[0-9]{4}"
-                    placeholder="mm/dd/ccyy">
-                </div>
-              </form>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-success" onclick="saveEventFormData()"
-                data-dismiss="modal">Save</button>
-            </div>
+
+
           </div>
-        </div>
-
-      </div>
-
-    </div>
 
 
   </main>

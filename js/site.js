@@ -3,15 +3,33 @@
  **
  */
 
+function generatePaymentPlan() {
+
+    let termPayAmt = 0; /* total loan amount: user input */
+    let termPayMos = 0; /* total years: this will be user input */
+    let termIntRate = 0; /* term interest rate: user input */
+
+
+    termPayAmt = parseInt(document.getElementById("loanAmount").value, 10);
+    termPayMoss = parseInt(document.getElementById("loanTerm").value, 10);
+    termIntRate = parseInt(document.getElementById("loanInterest").value, 10);
+   
+
+
+
+} /* end of generatePaymentPlan()
+
+
+
+
 /**
  ** test code 
  **
  */
-testPaymentCalc();
+/* testPaymentCalc(); */
 
 
-
-/*
+/************************************
 
 function loadEventData() {
     let eventData = [];
@@ -61,7 +79,7 @@ function displayEventData(eventData) {
     return null;
 } // end of displayEvenData()
 
-*/
+****************************************************************/
 
 
 function testPaymentCalc() {
@@ -106,7 +124,11 @@ function calcPercentage(num, percent) {
     return (num / 100) * percent;
 
 }
+function moneyNumFromStr(str_money)
+{
 
+
+}
 
 /**
  ** end of site.js
