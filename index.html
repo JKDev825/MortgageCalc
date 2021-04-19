@@ -100,27 +100,28 @@
               <div class="row">
                 <div class="col text-center">
                   <h6 class="font-weight-bold">Loan Amount ($): </h6>
-                  <input type="text" placeholder="Total to Borrow" class="textfield" id="loanAmount">
+                  <input type="text" placeholder="Total to Borrow" class="textfield" id="loanAmount" value="10000">
                 </div>
               </div>
               <br />
               <div class="row">
                 <div class="col text-center">
                   <h6 class="font-weight-bold">Enter Term (Months): </h6>
-                  <input type="text" placeholder="Total Months" class="textfield" id="loanTerm">
+                  <input type="text" placeholder="Total Months" class="textfield" id="loanTerm" value="12">
                 </div>
               </div>
               <br />
               <div class="row">
                 <div class="col text-center">
                   <h6 class="font-weight-bold name1">Enter Interest Rate (%): </h6>
-                  <input type="text" placeholder="Interest Rate" class="textfield" id="loanInterest">
+                  <input type="text" placeholder="Interest Rate" class="textfield" id="loanInterest" value="5">
                 </div>
               </div>
               <br />
               <div class="row">
                 <div class="col text-center">
-                  <button type="button" class="btn btn-primary" id="calc" onclick="generatePaymentPlan()"">Calculate</button>
+                  <button type="button" class="btn btn-primary" id="calc"
+                    onclick="generatePaymentPlan()">Calculate</button>
                 </div>
               </div>
             </form>
@@ -129,57 +130,57 @@
         </div>
         <div class=" col-lg-8 rounded shadow-lg">
 
-                    <h2 class="text-center">Your Monthly Payments</h2>
-                    <p><b> Notes:</b> <span id="resultMonTotAmt">Total Mon payment output field here</span></p>
-                    <div class="row">
-                      <div class="col">
-                        <p><b> Col2 Row1:</b> <span id="resultPlacemarker">placemarker row</span></p>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col">
-                        <p><b> Col2 Row2:</b> <span id="resultPrincTotAmt">Total principal output field here</span></p>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col">
-                        <p><b> Col2 Row3 Total Interest:</b> <span id="resultPrincTotAmt">Total interest output field
-                            here</span></p>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col">
-                        <p><b> Col2 Row4 Total Cost:</b> <span id="resultPrincTotAmt">Total cost output field
-                            here</span></p>
-                      </div>
-                    </div>
-                </div>
-              </div>
-          </div>
-
-          <div class="container">
-            <hr>
-            <div class="card shadow mb-4 rounded-corners">
-
-              <table class="table table-striped" id="EventTable">
-                <thead class="thead-dark">
-                  <tr>
-                    <th>Month</th>
-                    <th>Payment</th>
-                    <th>Principal</th>
-                    <th>Interest</th>
-                    <th>Total Interest</th>
-                    <th>Balance</th>
-                  </tr>
-                </thead>
-                <tbody id="resultsBody">
-                  <!-- data for the event table book will go here -->
-                </tbody>
-              </table>
+          <h2 class="text-center">Your Monthly Payments</h2>
+          <p><b> Notes:</b> <span id="resultMonTotAmt">Total Mon payment output field here</span></p>
+          <div class="row">
+            <div class="col">
+              <p><b> Col2 Row1:</b> <span id="resultPlacemarker">placemarker row</span></p>
             </div>
-
-
           </div>
+          <div class="row">
+            <div class="col">
+              <p><b> Col2 Row2:</b> <span id="resultPrincTotAmt">Total principal output field here</span></p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <p><b> Col2 Row3 Total Interest:</b> <span id="resultPrincTotAmt">Total interest output field
+                  here</span></p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <p><b> Col2 Row4 Total Cost:</b> <span id="resultPrincTotAmt">Total cost output field
+                  here</span></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <hr>
+      <div class="card shadow mb-4 rounded-corners">
+
+        <table class="table table-striped" id="PaymentTable">
+          <thead class="thead-dark">
+            <tr>
+              <th>Month</th>
+              <th>Payment</th>
+              <th>Principal</th>
+              <th>Interest</th>
+              <th>Total Interest</th>
+              <th>Balance</th>
+            </tr>
+          </thead>
+          <tbody id="resultsBody">
+            <!-- data for the event table book will go here -->
+          </tbody>
+        </table>
+      </div>
+
+
+    </div>
 
 
   </main>
@@ -206,7 +207,7 @@
 
   <!-- templates are hidden from the browser's view and won't render on the page -->
   <!-- template below shows 5 columns.  js in site.js will derive the total columns from the template -->
-  <template id="Event-Data-Template">
+  <template id="Payment-Data-Template">
     <tr>
       <td id="month"></td>
       <td id="payment"></td>
