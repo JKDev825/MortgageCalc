@@ -97,181 +97,240 @@
     <!-- : see css\prsmxxx.css in the header above. -->
     <!-- : This is for the code view on the challenges "see the code" pages.-->
 
-    <div class="container">
-      <hr>
-      <div class="row">
-        <div class="col-12 line-numbers">
-          <pre><code class="language-javascript">/*
- ** 04-14-21 jdj: Fizz Buzz Game:
- **              .take two input numbers and build a return table array displaying all numbers within the range.
- **              .Identify which number(s) are divisible by 3, 5 or both and display Fizz, Buzz, FizzBuzz respectively.
- **              .In addition allow the user to enter two alternate numbers other than 3 or 5 and use those variables
- **               to determine Fizz, Buzz or FizzBuzz.
- **              .HTML hook
- **             "document.getElementById("submitBtn").addEventListener("click", fz_FizzBuzzTableArray);"
+
+
+   <div class="container">
+     <hr>
+     <div class="row">
+       <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+         <div class="card bg-light rounded-corners shadow-lg border-dark">
+           <div class="card-header bg-dark">
+             <ul class="nav nav-pills card-header-tabs bg-dark" id="source-list" role="tablist">
+               <li class="nav-item">
+                 <a class="nav-link active" id="tab-src1" data-toggle="tab" href="#source-1" role="tab"
+                   aria-controls="instructions" aria-selected="true"><b>Data</b></a>
+               </li>
+               <li class="nav-item ">
+                 <a class="nav-link" id="tab-src2" data-toggle="tab" href="#source-2" role="tab"
+                   aria-controls="instruction-card2" aria-selected="false"><b>DropdownMenu</b></a>
+               </li>
+               <li class="nav-item">
+                 <a class="nav-link" id="tab-src3" data-toggle="tab" href="#source-3" role="tab"
+                   aria-controls="event-details" aria-selected="false">DataUpdates</a>
+               </li>
+             </ul>
+           </div>
+           <!--       <div class="card-body" style="background-color: rgba(9, 56, 30, 0.555);"> -->
+           <div class="card-body" style="background-color: rgba(9, 56, 30, 0.555);">
+
+             <div class="tab-content mt-3">
+               <div class="tab-pane active" id="source-1" role="tabpanel">
+                 <h6 class="card-title">Data access functions to isolate JSON calls. Initial data display from a static
+                   object array. Local storage is used thereafter for updates. </h5>
+                   <div class="col-12 line-numbers">
+                     <pre><code class="language-javascript">/*
+** .js entry point.
+** .get initial dataset.
+** .set the filteredEvents[] array for stats display.
+** .display the full dataset.
+*/
+function loadEventData() {
+
+    eventData = initGetEventData();
+
+    setFilteredEvents("All"); /* initialize filterEvents[] array for 1st time load of stats table */
+    displayStats();
+    displayEventData(eventData);
+
+    return null;
+} /* end of loadEventData() */
+
+/*
+ ** Data Access Routines:
  **
- **      Logic:  .Grab the input range numbers to build the integer array.
- **              .add reasonable and limits on what the user can enter.see userInputBad()
- **              .take the number and build the array.getRange()
- **              .Parse the array to identify numbers divisible by the modulo values. DisplayData()
+ ** .Application calls will use getEventData() and putEventData() for access.
+ ** .consolidate logic for JSON storage to omit multiple application references.
+ ** .this allows for flexibility in replacing the data access layer if needed.
+ ** .this exercise excludes error handling but this is where it would be included.
+ ** 
+ ** .Note: the static array and storage share the same name "eventArray"
  */
+function getEventDataFromStorage(createNewFromArray) {
 
-function fz_FizzBuzzTableArray() {
+    let eventData = "";
 
-
-    //  alert("here: 2nd .js")
-    let startNum = parseInt(document.getElementById("numOne").value);
-    let endNum = parseInt(document.getElementById("numTwo").value);
-
-    let outputMsg = document.getElementById("FizzBuzzNotes"); // get the message field object once 
-    outputMsg.innerText = "";
-
-    if (userInputBad(startNum, endNum, outputMsg) == true) {
-        return;
+    if (createNewFromArray == true) {
+        eventData = JSON.parse(localStorage.getItem("eventArray")) || [];
+    } else {
+        eventData = JSON.parse(localStorage.getItem("eventArray")) || eventArray;
     }
 
+    return eventData;
 
-    let numbers = getRange(startNum, endNum);
-    displayData(numbers);
+} /* end of getEventDataFromStorage */
 
-    outputMsg.classList.add("noteBuzzOk");
-    outputMsg.innerText = "Success !";
-}
+function putEventData(dataSet) {
 
+    /**
+     ** .future lessons yet to be had regarding error i/o handling best practices
+     ** .error logic would be added to respective data access errors.
+     */
+    localStorage.setItem("eventArray", JSON.stringify(dataSet));
 
-/*
- ** Function to control basic error handling.
- ** .don't allow negative range numbers.  Don't care about the mods
- ** .make sure they're a valid range.
- ** .limit the table range to 1000
- ** .for display reasons don't allow the start number past 1million
- */
-function userInputBad(startNum, endNum, outputMsg) {
+    return true;
 
-
-    // clear any previous values set.  Seems to max out and retain the last style on subsequent .add calls.
-    outputMsg.classList.remove("noteBuzzErr");
-    outputMsg.classList.remove("noteBuzzOk");
-
-    if (startNum < 0 || endNum < 0) {
-        outputMsg.classList.add("noteBuzzErr");
-        outputMsg.innerText = "Please try using positive numbers for the table range.";
-        return true;
-    }
-
-    if (startNum >= endNum) {
-        outputMsg.classList.add("noteBuzzErr");
-        outputMsg.innerText = "Please ensure the start value is less than the end value.";
-        return true;
-    }
-
-    if ((endNum - startNum) > 1000) {
-        outputMsg.classList.add("noteBuzzErr");
-        outputMsg.innerText = "Please try to keep the range under 1,000.";
-        return true;
-    }
-
-    if (startNum > 999999999) {
-        outputMsg.classList.add("noteBuzzErr");
-        outputMsg.innerText = "Please keep the number values under 1 million.";
-        return true;
-    }
-
-    return false;
-}
-// end of userInputBad()
-
-/*
- ** Build and return an array of numbers from user's range.
- */
-function getRange(start, end) {
-    let numberArray = [];
-
-    for (let index = start; index <= end; index++) {
-        //fizzbuzz logic will be added here
-
-        numberArray.push(index);
-    }
-
-    return numberArray;
-}
-// end of getRange()
-
-
-/*
- ** .display the numbers on the page
- ** .have a repeating template where we don 't know how many rows or columns
- ** .we will derive, from the html template, the total columns.
- **
- ** .when the teamplate is returned the tr,td is returned as a string.
- ** .you have to parse and count each 
- ** .clonenode(true) turns into a document and you can use query selectors on it.
- ** .(true) returns the whole template (tr,tds) where (false) only returns the single tr.
- ** .importnode can get data NOT on the CURRENT doument.
- ** .clonenode is the current document.
- ** .comes back as an array where you can use the .length property for the count.
-  */
-function displayData(numberArray) {
-    const rowTemplate = document.getElementById("FB-Data-Template"); // gets the <tr rows> and <td columns> from the html id= tage
-    const resultsBody = document.getElementById("resultsBody"); // is the area where the table will be displayed
-    let colCount = rowTemplate.content.cloneNode(true).querySelectorAll("td").length;
-    let modFizz = parseInt(document.getElementById("modFizz").value);
-    let modBuzz = parseInt(document.getElementById("modBuzz").value);
-    let cssFBStyle = "";
-
-
-    resultsBody.innerHTML = ""; // clears table after every event
-
-    // loop over the array and the write the value to a page.
-    for (let i = 0; i < numberArray.length; i += colCount) {
-        let dataRow = rowTemplate.content.cloneNode(true); // get the tr and multiple td
-
-        let cols = dataRow.querySelectorAll("td"); // gets the array of td columns
-
-        // loop over the columns.
-        for (let colIndex = 0; colIndex < cols.length; colIndex++) {
-
-            cssFBStyle = ""; // re-initialize each iteration, cell
-            let value = numberArray[i + colIndex]; // error checking for when there are no more numbers in the array
-
-            if (typeof value === "undefined") { // check for out of bounds on the array
-                value = ""; // will write an empty string as were out numbers for the current row.
-            } else if (value % modFizz == 0 && value % modBuzz == 0) {
-                value = "FizzBuzz";
-                cssFBStyle = "boldFizzBuzz";
-            } else if (value % modFizz == 0) {
-                // check for even value and make bold using the modulas operator: divisble by two.
-                //      cols[colIndex].classList.add("boldIt"); // cols is the actual td row with properties so classlist has all the styles.
-                value = "Fizz";
-                cssFBStyle = "boldFizz";
-
-            } else if (value % modBuzz == 0) {
-                // check for even value and make bold using the modulas operator: divisble by two.
-                //   cols[colIndex].classList.add("boldIt"); // cols is the actual td row with properties so classlist has all the styles.
-                value = "Buzz";
-                cssFBStyle = "boldBuzz";
-            }
-
-            cols[colIndex].textContent = value; // textcontent is the areaa between the <td>textcontent</td>
-            if (cssFBStyle != "") {
-                cols[colIndex].classList.add(cssFBStyle); // cols is the actual td row with properties so classlist has all the styles.
-            }
-        }
-
-        /*
-         ** commits back to the page for each row and column
-         ** and will be <tr> <td> <td> <td> <td> .etc
-         */
-        resultsBody.appendChild(dataRow); // commits back to the page for each row and column 
-    }
-} // end of displayData()
-
-/*
- ** end of site.js
+} /* end of putEventData() */
  */</code></pre>
-        </div>
-      </div>
-    </div>
+                   </div>
+               </div>
+
+               <div class="tab-pane fade" id="source-2" role="tabpanel" aria-labelledby="instruction-card2">
+                 <h6 class="card-title">The drop down menu lists unique locations from the full dataset. It filters
+                   by location and builds the HTML and callback into the JavaScript using onclick=getEvent().
+                 </h6>
+
+                 <div class="container">
+                   <div class="row stats-row">
+                     <div class="col line-numbers">
+                       <pre><code class="language-javascript">/*
+ ** .HTML entry point from body tage onload=buildDropDown()
+ ** .controls build of the drop down menu for location selections.
+ ** .Update the statistics and full datset displays.
+ */
+function buildDropDown() {
+    buildDropDownMenu(); // build city drop down list
+    updateEventDataDisplays();
+    return null;
+} /* end of buildDropDown() */
+
+/*
+ ** .create location drop down menu for statistics
+ ** .takes a copy of the current data table
+ ** .creates a new array with just a list of distinct city names.
+ ** .builds the line level html with onclick=getEvent to allow a location specific selection and refresh
+ ** .ending html that includes all locations.
+ */
+function buildDropDownMenu() {
+    let eventDD = document.getElementById("eventDropDown");
+    let eventDataList = getEventData(); /* get the list from disk or the static array at the top */
+
+    /*   let distinctEvents = [...new Set(eventArray.map((eventArray) => eventArray.city))]; */
+    let distinctEvents = [...new Set(eventDataList.map((eventDataList) => eventDataList.city))];
+
+
+    /* builds the html for the drop down list and callback to getEvents() using onclick() for each location displayed */
+    let linkHTMLEnd =
+        '[div class="dropdown-divider"][/div][a class="dropdown-item" onclick="getEvents(this)" data-string="All"]All[a]';""
+
+    let resultHTML = "";
+
+    for (let i = 0; i < distinctEvents.length; i++) {
+        resultHTML += `[a class="dropdown-item" onclick="getEvents(this)" data-string="${distinctEvents[i]}">${distinctEvents[i]}[/a]`;
+    }
+    resultHTML += linkHTMLEnd;
+    eventDD.innerHTML = resultHTML;
+
+    return null;
+
+} /* end of buildDropDownMenu */
+</code></pre>
+
+                     </div>
+                   </div>
+                 </div>
+               </div>
+
+               <div class="tab-pane fade" id="source-3" role="tabpanel" aria-labelledby="deals-tab">
+                 <h6 class="card-title">An HTML form class was used to collect new event data. New data is appended
+                   onto the existing dataset. Logic was written to inspect the entered location against the existing
+                   location statistics table display. If they are the same the location specific values display is
+                   updated upon save. New locations will be added to the next dropdown menu and total statistics
+                   updated.</h5>
+
+                   <div class="container">
+                     <div class="row stats-row">
+                       <div class="col line-numbers"></div>
+                       <pre><code class="language-javascript">
+/*
+ ** .user save new event form.
+ ** .form validation is NOT being applied for this exercise.
+ ** .grab the current dataset
+ ** .build a new object with the form contents and push onto the dataset and save.
+ ** .check if the current display stats header location matches the new form data.
+ ** .if it does update the stats window with the new data totals
+ ** .Also update the totals display if current on "All"
+ ** .rebuild the dropdown and update all displays.
+ */
+function saveEventFormData() {
+
+    /* let eventData = JSON.parse(localStorage.getItem("eventArray")) || eventArray; */
+    let eventData = getEventData(); /* get the current data set */
+    let formCityName = "";
+    let obj = {};
+
+    obj["event"] = document.getElementById("newEvent").value;
+    obj["city"] = document.getElementById("newCity").value;
+    obj["state"] = document.getElementById("newState").value;
+    obj["attendance"] = parseInt(document.getElementById("newAttendance").value, 10);
+    obj["date"] = document.getElementById("newDate").value;
+
+    eventData.push(obj);
+
+    /* localStorage.setItem("eventArray", JSON.stringify(eventData)); replaced with putEventData() */
+    putEventData(eventData);
+
+    let hdrCityStr = document.getElementById("statsHeader").innerHTML;
+    hdrCityStr = normalizeString(hdrCityStr);
+    hdrCityStr = hdrCityStr.replace("STATSFOR", "");
+    hdrCityStr = hdrCityStr.replace("EVENTS", "");
+
+    formCityName = obj["city"];
+    if (compareStringsTheSame(normalizeString(formCityName), hdrCityStr) == true || hdrCityStr == "ALL") {
+
+        if (hdrCityStr == "ALL") {
+            setFilteredEvents("All"); /* update filteredEvents[] for displaystats() */
+        } else {
+            setFilteredEvents(formCityName); /* update filteredEvents[] for displaystats() */
+        }
+    }
+
+
+    buildDropDown(); /* update dropdown menu to included the new dataset entry if unuique. */
+    updateEventDataDisplays(); /* update the stats and main table data displays */
+    document.getElementById("newAEventForm").reset(); /* reset the contents of the form */
+    return null;
+} /* end of saveEventData() */
+
+/*
+** .update the global filteredEvents[] array with the location string passed.
+*/
+function setFilteredEvents(matchCityName) {
+let curEvents = getEventData(); /* get the current data set */
+
+filteredEvents = curEvents;
+if (matchCityName != "All") {
+//Explain how array filtering works-
+filteredEvents = curEvents.filter(function (item) {
+if (item.city == matchCityName) {
+return item;
+}
+});
+}
+return null;
+} /* end of setFilteredEvents() */
+</code></pre>
+
+                     </div>
+                   </div>
+               </div>
+             </div>
+           </div>
+         </div> <!-- card class end -->
+       </div> <!-- col end -->
+     </div> <!-- row end-->
+   </div> <!-- container end -->
+
+
 
   </main>
 

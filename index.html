@@ -88,12 +88,12 @@
 
     <div class="container">
       <div class="row">
-        <div class="col-lg-4 mb-4">
+        <div class="col-lg-4 mb-0">
           <!-- Input Fields -->
-          <div class="card shadow mb-4 rounded-corners">
+          <div class="card shadow mb-0 rounded-corners border-dark">
 
-            <div class="card-header py-3">
-              <h6 class="font-weight-bold text-center text-primary">LOAN CALCULATOR</h6>
+            <div class="card-header py-3 bg-dark">
+              <h6 class="font-weight-bold text-center text-white">LOAN CALCULATOR</h6>
             </div>
 
             <form class="card-body row1Card my-bg-color">
@@ -131,26 +131,46 @@
         <div class=" col-lg-8 rounded shadow-lg">
 
           <h2 class="text-center">Your Monthly Payments</h2>
-          <p><b> Notes:</b> <span id="resultMonTotAmt">Total Mon payment output field here</span></p>
+          <!--   <p><b> Notes:</b> <span id="resultMonTotAmt">Total Mon payment output field here</span></p> -->
+          <br>
+
+          <div class="row mt-3 pt-5">
+            <div class="col align-items-center">
+              <h1><span id="resultMonPayment" class="center"></span></h1>
+            </div>
+
+          </div>
+          <div class="row mt-lg-5 pt-5">
+            <div class="col-8">
+              <h5><b>Total Principal:</b> </h5>
+            </div>
+            <div class="col-4 font-weight-bold text-lg-right pr-5">
+              <h5><span id="resultTotalPrincipal"></span></h5>
+            </div>
+
+
+          </div>
           <div class="row">
-            <div class="col">
-              <p><b> Col2 Row1:</b> <span id="resultPlacemarker">placemarker row</span></p>
+            <div class="col-8">
+              <h5><b>Total Interest:</b></h5>
+            </div>
+            <div class="col-4 font-weight-bold text-lg-right pr-5">
+              <div>
+                <h5> <span id="resultTotalInterest"></span></h5>
+              </div>
             </div>
           </div>
           <div class="row">
-            <div class="col">
-              <h5><b>Total Principal:</b> <span id="resultTotalPrincipal"></span></h5>
+            <div class="col-8">
+              <h5><b>Total Loan Cost:</b></h5>
             </div>
-          </div>
-          <div class="row">
-            <div class="col">
-              <h5><b>Total Interest:</b> <span id="resultTotalInterest"></span></h5>
+
+            <div class="col-4 font-weight-bold font text-lg-right pr-5 ">
+              <h5><span id="resultTotalCost"></span></h5>
+
             </div>
-          </div>
-          <div class="row">
-            <div class="col">
-              <h5><b>Total Loan Cost:</b> <span id="resultTotalCost"></span></h5>
-            </div>
+
+
           </div>
         </div>
       </div>
@@ -228,6 +248,8 @@
     integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
   </script>
 
+  <!-- 04-19-21 jd: added for emailjs -->
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
   <script src="js/site.js"></script>
 
