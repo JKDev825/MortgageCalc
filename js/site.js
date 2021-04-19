@@ -1,7 +1,8 @@
- /*
+  /*
   ** 04-18-21 jdj: Mortgage Loan Calculator:
   **
-  ** .for initial app build keep global scope variables.
+  ** .using globally scoped variables for ease of use
+  **  as it's a simple application.
   **
   */
  let g_termPayAmt = 0; /* total loan amount: user input */
@@ -34,12 +35,9 @@
      g_termIntTotal = calcPercentage(g_termPayAmt, g_termIntRate);
      g_monIntAmt = g_termIntTotal / g_termPayMon;
 
-     /*
+      /*
       ** totmonthlypayment = (amount loan) * (rate / 1200) / (1-(1 + rate /1200)) huh?
       */
-     // g_totMonPayment = g_termPayAmt * (g_termIntRate / 1200);
-     // g_totMonPayment /= (1 - (1 + g_termIntRate / 1200));
-
      g_totMonPayment = (g_termPayAmt) * (g_termIntRate / 1200) / (1 - Math.pow((1 + g_termIntRate / 1200), -g_termPayMon));
 
      displayPaymentPlan();
@@ -47,6 +45,12 @@
      return null;
  } /* end of generatePaymentPlan() */
 
+
+  /**
+  ** .aquire the html template
+  ** .loop through the payment term and update tables rows
+  **
+  */
  function displayPaymentPlan() {
      const template = document.getElementById("Payment-Data-Template");
      const resultsBody = document.getElementById("resultsBody");
@@ -97,7 +101,7 @@
          resultsBody.appendChild(dataRow);
      }
 
-     /*
+      /*
       ** .Running totals are calculated on iterations.  This impacts monthly values are rates are recalculated.
       ** .Update the global variables for total cost displays.
       ** .displayTermTotals() references the global totals.
@@ -106,10 +110,11 @@
      g_termIntTotal = tbl_totIntPaid;
 
      displayTermTotals();
+
      return null;
  } /* end of displayPaymentPlan() */
 
- /*
+  /*
   ** .Display term totals in the Payment area
   **
   */
