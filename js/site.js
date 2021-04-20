@@ -55,12 +55,20 @@
       let termIntRate = 0; /* term interest rate: user input */
 
 
-
       let formData = createFormData();
       if (formData.dataOK == false) {
           return;
       }
-      createPaymentDataObj(formData);
+
+
+      /*
+       ** 04-19-21 jdj:.this is a complete rework of the logic using js objects
+       **               to replace current logic dependencies on global variables.
+       **              .need to double check object contents and write display
+       **               then can replace calls to the original logic.
+       */
+      // temporarily comment out to deploy a bug fix on the original logic with form validation added.
+      // let paymentsObj = createPaymentObjData(formData);
 
 
       termPayAmt = parseInt(document.getElementById("loanAmount").value, 10);
@@ -182,9 +190,6 @@
   } /* end of displayTermTotals() */
 
 
-  /*
-   ** .isolate the form variables into an object and return to the caller.
-   */
   function createFormData() {
 
       let formData = {
@@ -223,7 +228,7 @@
 
       if (errFldName != "") {
           errMsg = `${errFldName} must be a non-zero number please.`
-          alert(errMsg);
+          showErrorMsg(errMsg);
       } else {
           formData.dataOK = true;
       }
@@ -235,14 +240,15 @@
   /*
    ** .Create the payment data object with payment array and summary.
    */
-  function createPaymentDataObj(formData) {
+  function createPaymentObjData(formData) {
 
       let payments_info = {
           payment_table_rows: [],
           summary_data: {}
       };
 
-      payments_info.payment_table_rows = createPaymentDataArray();
+      //      payments_info.payment_table_rows = createPaymentDataArray(formData);
+      let tmp_pi = createPaymentDataArray(formData);
 
       return payments_info;
   }
@@ -256,7 +262,12 @@
    **
    */
   function createPaymentDataArray(formData) {
+
       let tbl_paymentArr = [];
+      let payments_info = {
+          payment_table_rows: [],
+          summary_data: {}
+      };
 
       let tbl_totPayment = 0;
       let tbl_totIntPaid = 0;
@@ -264,24 +275,38 @@
       let tbl_intPaid = 0;
       let tbl_princPaid = 0;
       let tbl_accPay = 0;
+      let tbl_totIntTerm = 0;
+      let tbl_monIntAmt = 0;
+      let tbl_monPayAmt = 0;
+      let termRemBalance = 0;
 
 
       /*
        ** totmonthlypayment = (amount loan) * (rate / 1200) / (1-(1 + rate /1200)) huh?
        */
+
+      tbl_totIntTerm = calcPercentage(formData.totLoanAmtNum, formData.interestRateNum);
+      tbl_monIntAmt = tbl_totIntTerm / formData.totLoanMonthNum;
+      tbl_monPayAmt = formData.totLoanAmtNum / formData.totLoanMonthNum;
+
+      termRemBalance = formData.totLoanAmtNum;
+      termRemBalance -= (tbl_monPayAmt - tbl_monIntAmt);
+
       tbl_totPayment = (formData.totLoanAmtNum) * (formData.interestRateNum / 1200) / (1 - Math.pow((1 + formData.interestRateNum / 1200), -formData.totLoanMonthNum));
       tbl_remBalance = formData.totLoanAmtNum;
       tbl_intPaid = tbl_remBalance * (formData.interestRateNum / 1200);
+
 
 
       for (let x = 0; x < formData.totLoanMonthNum; x++) {
           tbl_intPaid = tbl_remBalance * (formData.interestRateNum / 1200); /* needs to be before remaining balance is adjusted */
 
           tbl_totIntPaid += tbl_intPaid;
-          tbl_princPaid = g_totMonPayment - tbl_intPaid;
+          tbl_princPaid = tbl_totPayment - tbl_intPaid;
           tbl_remBalance -= tbl_princPaid;
-          tbl_intPaid = tbl_remBalance * (formData.interestRateNum / 1200);
-          tbl_accPay += g_totMonPayment;
+
+          //     tbl_intPaid = tbl_remBalance * (formData.interestRateNum / 1200);
+          tbl_accPay += tbl_totPayment;
 
           let payments_info = {
               MonNumber: x + 1,
@@ -292,23 +317,35 @@
               remBalance: tbl_remBalance
           };
 
-          paymentArr.push(payments_info);
+          /*   tbl_paymentArr.push(payments_info); */
+          tbl_paymentArr.push(payments_info);
+          //    payments_info.payment_table_rows.push(payments_info);
 
-          tbl_remBalance -= (tbl_totPayment + tbl_totIntPaid);
+          //  tbl_remBalance -= (tbl_totPayment + tbl_totIntPaid);
+          termRemBalance -= (tbl_monPayAmt + tbl_monIntAmt);
       }
 
       let payment_summary = {
           payment: tbl_totPayment,
           totalPrincipal: formData.totLoanAmtNum,
           totalInterest: tbl_totIntPaid,
-          totalCost: (amount + totalInterest)
+          totalCost: (formData.totLoanAmtNum + tbl_totIntPaid)
       }
 
-      payments.push(payment_summary);
+      // tbl_paymentArr.push(payment_summary);
+      payments_info.summary_data = payment_summary;
+      payments_info.payment_table_rows = tbl_paymentArr;
 
 
-      return paymentArr;
+      return payments_info;
+      //   return tbl_paymentArr;
   } /* end of createPaymentDataArray() */
+
+  function displayPaymentObjData(paymentObjData) {
+
+
+  } /* end of displayPaymentObjData() */
+
 
 
   function calcPercentage(num, percent) {
@@ -345,7 +382,23 @@
       returnMoneyStr = tmpStr.replace("$", "");
       returnMoneyStr = returnMoneyStr.replace("-", "");
       return returnMoneyStr;
-  }
-  /**
+  } /* numtoMoneyStr() */
+
+  function showErrorMsg(errMsgStr) {
+      //   alert(errMsgStr);
+      //   alert("windows alert is temporary until I can debug sweetalert");
+
+
+      Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          /*    html: `<ol>${errorMessage}</ol>`, */
+          html: `${errMsgStr}`,
+      })
+
+  } /* end of showErrorMsg() */
+
+
+  /*
    ** end of site.js
    */
