@@ -50,7 +50,6 @@
        **              .need to double check object contents and write display
        **               then can replace calls to the original logic.
        */
-      // temporarily comment out to deploy a bug fix on the original logic with form validation added.
       let paymentsObj = createPaymentObjData(formData);
       displayPaymentObjData(paymentsObj);
       return null;
@@ -109,19 +108,40 @@
       let errFldName = "";
 
       // note: revisit: changed input types to number so isNaN() may not work
-      if (isNaN(formData.totLoanAmtNum) == true) {
+      if (isNaN(formData.totLoanAmtNum) == true || parseInt(formData.totLoanAmtNum) <= 0) {
           errFldName = "Loan Amount, ";
       }
-      if (isNaN(formData.totLoanMonthNum) == true) {
+      if (isNaN(formData.totLoanMonthNum) == true || parseInt(formData.totLoanMonthNum) <= 0) {
           errFldName = errFldName + "Term Months, ";
       }
-      if (isNaN(formData.interestRateNum) == true) {
+      if (isNaN(formData.interestRateNum) == true || parseInt(formData.interestRateNum) <= 0) {
           errFldName = errFldName + "Interest Rate";
       }
 
       if (errFldName != "") {
-          errMsg = `${errFldName} must be a non-zero number please.`
+          errMsg = `${errFldName} must be a non-zero number please.`;
+      }
+
+      if (errFldName == "") {
+
+          if (parseInt(formData.totLoanAmtNum) > 10000000) {
+              errMsg = `Please contact us for loans over $10,000,000.00`;
+          }
+          if (parseInt(formData.totLoanMonthNum) > 360) {
+              errMsg = `We would like to limit the term to 30 years or less please.`;
+          }
+
+
+          if (parseInt(formData.interestRateNum) > 50) {
+              errMsg = `We thought you might want the interest rate a little lower than ${formData.interestRateNum}%.  Please try again.`;
+          }
+      }
+
+
+
+      if (errMsg != "") {
           showErrorMsg(errMsg);
+          formData.dataOK = false;
       } else {
           formData.dataOK = true;
       }
@@ -307,9 +327,6 @@
   } /* numtoMoneyStr() */
 
   function showErrorMsg(errMsgStr) {
-      //   alert(errMsgStr);
-      //   alert("windows alert is temporary until I can debug sweetalert");
-
 
       Swal.fire({
           icon: 'error',
