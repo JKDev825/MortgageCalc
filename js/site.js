@@ -34,26 +34,9 @@
    **     remBalance:  inlinevarhere6
    **  };
    **
-   **
-   **
-   **
    */
-  let g_termPayAmt = 0; /* total loan amount: user input */
-  let g_termPayMon = 0; /* total months: this will be user input */
-  let g_termIntRate = 0; /* term interest rate: user input */
-  let g_monPayAmt = 0; /* total montly payment */
-  let g_remBalance = 0; /* running balance.  1st month reflects 1st payment paid */
-  let g_termIntTotal = 0; /* total interest for the loan */
-  let g_monIntAmt = 0; /* monthly interest amount */
-
-  let g_totMonPayment = 0; /* total monthly payment calc from requirements doc */
 
   function generatePaymentPlan() {
-
-      let termPayAmt = 0; /* total loan amount: user input */
-      let termPayMon = 0; /* total years: this will be user input */
-      let termIntRate = 0; /* term interest rate: user input */
-
 
       let formData = createFormData();
       if (formData.dataOK == false) {
@@ -68,122 +51,32 @@
        **               then can replace calls to the original logic.
        */
       // temporarily comment out to deploy a bug fix on the original logic with form validation added.
-      // let paymentsObj = createPaymentObjData(formData);
-
-
-      termPayAmt = parseInt(document.getElementById("loanAmount").value, 10);
-      termPayMon = parseInt(document.getElementById("loanTerm").value, 10);
-      termIntRate = parseInt(document.getElementById("loanInterest").value, 10);
-
-      g_termPayAmt = termPayAmt;
-      g_remBalance = g_termPayAmt;
-      g_termPayMon = termPayMon;
-      g_termIntRate = termIntRate;
-
-      g_monPayAmt = g_termPayAmt / g_termPayMon;
-      g_termIntTotal = calcPercentage(g_termPayAmt, g_termIntRate);
-      g_monIntAmt = g_termIntTotal / g_termPayMon;
-
-      /*
-       ** totmonthlypayment = (amount loan) * (rate / 1200) / (1-(1 + rate /1200)) huh?
-       */
-      g_totMonPayment = (g_termPayAmt) * (g_termIntRate / 1200) / (1 - Math.pow((1 + g_termIntRate / 1200), -g_termPayMon));
-
-      displayPaymentPlan();
-
+      let paymentsObj = createPaymentObjData(formData);
+      displayPaymentObjData(paymentsObj);
       return null;
+      /* replace the original logic with the object array */
+
   } /* end of generatePaymentPlan() */
 
 
-  /**
-   ** .aquire the html template
-   ** .loop through the payment term and update tables rows
-   **
-   */
-  function displayPaymentPlan() {
-      const template = document.getElementById("Payment-Data-Template");
-      const resultsBody = document.getElementById("resultsBody");
-      let tbl_totIntPaid = 0;
-      let tbl_remBalance = 0;
-      let tbl_intPaid = 0;
-      let tbl_princPaid = 0;
-      let tbl_accPay = 0;
-
-      resultsBody.innerHTML = "";
-
-      g_remBalance -= (g_monPayAmt - g_monIntAmt); /* first month rem balance shows is 1st payments made */
-
-      tbl_remBalance = g_termPayAmt;
-      tbl_intPaid = tbl_remBalance * (g_termIntRate / 1200);
-
-
-
-
-      for (let x = 0; x < g_termPayMon; x++) {
-          const dataRow = document.importNode(template.content, true);
-
-          tbl_intPaid = tbl_remBalance * (g_termIntRate / 1200); /* needs to be before remaining balance is adjusted */
-
-          tbl_totIntPaid += tbl_intPaid;
-          tbl_princPaid = g_totMonPayment - tbl_intPaid;
-          tbl_remBalance -= tbl_princPaid;
-          tbl_accPay += g_totMonPayment;
-
-          dataRow.getElementById("month").textContent = x + 1;
-
-          /* first attempt
-          dataRow.getElementById("payment").textContent = numtoMoneyStr(g_monPayAmt + g_monIntAmt);
-          dataRow.getElementById("principal").textContent = numtoMoneyStr(g_monPayAmt);
-          dataRow.getElementById("interest").textContent = numtoMoneyStr(g_monIntAmt);
-          dataRow.getElementById("totinterest").textContent = "";
-          dataRow.getElementById("balance").textContent = numtoMoneyStr(g_remBalance);
-          */
-
-          dataRow.getElementById("payment").textContent = numtoMoneyStr(g_totMonPayment);
-          dataRow.getElementById("principal").textContent = numtoMoneyStr(tbl_princPaid);
-          dataRow.getElementById("interest").textContent = numtoMoneyStr(tbl_intPaid);
-          dataRow.getElementById("totinterest").textContent = numtoMoneyStr(tbl_totIntPaid);
-          dataRow.getElementById("balance").textContent = numtoMoneyStr(tbl_remBalance);
-
-          g_remBalance -= (g_monPayAmt + g_monIntAmt);
-
-
-          resultsBody.appendChild(dataRow);
-      }
-
-      /*
-       ** .Running totals are calculated on iterations.  This impacts monthly values are rates are recalculated.
-       ** .Update the global variables for total cost displays.
-       ** .displayTermTotals() references the global totals.
-       */
-      /*
-       ** 04-19-21 jdj: remove global references.
-       **  .tbl_totIntPaid is the total interest for the term
-       ** g_termIntTotal = tbl_totIntPaid;
-       */
-      displayTermTotals(g_totMonPayment, g_termPayAmt, tbl_totIntPaid, (g_termPayAmt + tbl_totIntPaid));
-
-      return null;
-  } /* end of displayPaymentPlan() */
 
   /*
    ** .Display term totals in the Payment area
    **
    */
-  function displayTermTotals(amtTotMonthly, amtTotPrincipal, amtTotInterest, amtTotCost) {
+  function displayTermTotals(paymentObjData, amtTotMonthly, amtTotPrincipal, amtTotInterest, amtTotCost) {
 
 
-      /* 04-19-21: get away from global variables.  Change to pass these few as parms.
-      document.getElementById("resultMonPayment").innerHTML = numtoMoneyStrWDS(g_totMonPayment);
-      document.getElementById("resultTotalPrincipal").innerHTML = numtoMoneyStrWDS(g_termPayAmt);
-      document.getElementById("resultTotalInterest").innerHTML = numtoMoneyStrWDS(g_termIntTotal);
-      document.getElementById("resultTotalCost").innerHTML = numtoMoneyStrWDS(g_termPayAmt + g_termIntTotal);
-*/
 
-      document.getElementById("resultMonPayment").innerHTML = numtoMoneyStrWDS(amtTotMonthly);
-      document.getElementById("resultTotalPrincipal").innerHTML = numtoMoneyStrWDS(amtTotPrincipal);
-      document.getElementById("resultTotalInterest").innerHTML = numtoMoneyStrWDS(amtTotInterest);
-      document.getElementById("resultTotalCost").innerHTML = numtoMoneyStrWDS(amtTotCost);
+      //    document.getElementById("resultMonPayment").innerHTML = numtoMoneyStrWDS(amtTotMonthly);
+      //    document.getElementById("resultTotalPrincipal").innerHTML = numtoMoneyStrWDS(amtTotPrincipal);
+      //    document.getElementById("resultTotalInterest").innerHTML = numtoMoneyStrWDS(amtTotInterest);
+      //    document.getElementById("resultTotalCost").innerHTML = numtoMoneyStrWDS(amtTotCost);
+
+      document.getElementById("resultMonPayment").innerHTML = numtoMoneyStrWDS(paymentObjData.summary_data.payment);
+      document.getElementById("resultTotalPrincipal").innerHTML = numtoMoneyStrWDS(paymentObjData.summary_data.totalPrincipal);
+      document.getElementById("resultTotalInterest").innerHTML = numtoMoneyStrWDS(paymentObjData.summary_data.totalInterest);
+      document.getElementById("resultTotalCost").innerHTML = numtoMoneyStrWDS(paymentObjData.summary_data.totalCost);
 
 
       return null;
@@ -242,15 +135,10 @@
    */
   function createPaymentObjData(formData) {
 
-      let payments_info = {
-          payment_table_rows: [],
-          summary_data: {}
-      };
-
       //      payments_info.payment_table_rows = createPaymentDataArray(formData);
-      let tmp_pi = createPaymentDataArray(formData);
+      let paymentsObj = createPaymentDataArray(formData);
 
-      return payments_info;
+      return paymentsObj;
   }
 
 
@@ -342,6 +230,40 @@
   } /* end of createPaymentDataArray() */
 
   function displayPaymentObjData(paymentObjData) {
+      const template = document.getElementById("Payment-Data-Template");
+      const resultsBody = document.getElementById("resultsBody");
+
+      resultsBody.innerHTML = "";
+
+      for (let x = 0; x < paymentObjData.payment_table_rows.length; x++) {
+          const dataRow = document.importNode(template.content, true);
+
+
+          dataRow.getElementById("month").textContent = x + 1;
+
+
+          dataRow.getElementById("payment").textContent = numtoMoneyStr(paymentObjData.payment_table_rows[x].TotPaid);
+          dataRow.getElementById("principal").textContent = numtoMoneyStr(paymentObjData.payment_table_rows[x].Principal);
+          dataRow.getElementById("interest").textContent = numtoMoneyStr(paymentObjData.payment_table_rows[x].Interest);
+          dataRow.getElementById("totinterest").textContent = numtoMoneyStr(paymentObjData.payment_table_rows[x].TotInterest);
+          dataRow.getElementById("balance").textContent = numtoMoneyStr(paymentObjData.payment_table_rows[x].remBalance);
+
+
+
+          resultsBody.appendChild(dataRow);
+      }
+
+      /*
+       ** .Running totals are calculated on iterations.  This impacts monthly values are rates are recalculated.
+       ** .Update the global variables for total cost displays.
+       ** .displayTermTotals() references the global totals.
+       */
+      displayTermTotals(paymentObjData, paymentObjData.summary_data.payment,
+          paymentObjData.summary_data.totalPrincipal,
+          paymentObjData.summary_data.totalInterest,
+          paymentObjData.summary_data.totalCost);
+
+      return null;
 
 
   } /* end of displayPaymentObjData() */
