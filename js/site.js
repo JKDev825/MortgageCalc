@@ -36,19 +36,22 @@
    **
    */
 
+  /*
+   ** .entry point from html form onclick event.
+   ** .collect the form data into an object and validate.
+   ** .generate calculations using the form object, create the data array, summary data and display.
+   */
   function generatePaymentPlan() {
 
+      /* collect the form data into an object and use for validation and data calculations */
       let formData = createFormData();
-      if (formData.dataOK == false) {
+      if (formData.dataOK == false) { // simple validation; exit based on the objects boolean trigger.
           return;
       }
 
 
       /*
-       ** 04-19-21 jdj:.this is a complete rework of the logic using js objects
-       **               to replace current logic dependencies on global variables.
-       **              .need to double check object contents and write display
-       **               then can replace calls to the original logic.
+       ** .create the data array summary data into a js complex object and display the results.
        */
       let paymentsObj = createPaymentObjData(formData);
       displayPaymentObjData(paymentsObj);
@@ -60,17 +63,11 @@
 
 
   /*
-   ** .Display term totals in the Payment area
+   ** .Display term totals using the data object.
    **
    */
-  function displayTermTotals(paymentObjData, amtTotMonthly, amtTotPrincipal, amtTotInterest, amtTotCost) {
+  function displayTermTotals(paymentObjData) {
 
-
-
-      //    document.getElementById("resultMonPayment").innerHTML = numtoMoneyStrWDS(amtTotMonthly);
-      //    document.getElementById("resultTotalPrincipal").innerHTML = numtoMoneyStrWDS(amtTotPrincipal);
-      //    document.getElementById("resultTotalInterest").innerHTML = numtoMoneyStrWDS(amtTotInterest);
-      //    document.getElementById("resultTotalCost").innerHTML = numtoMoneyStrWDS(amtTotCost);
 
       document.getElementById("resultMonPayment").innerHTML = numtoMoneyStrWDS(paymentObjData.summary_data.payment);
       document.getElementById("resultTotalPrincipal").innerHTML = numtoMoneyStrWDS(paymentObjData.summary_data.totalPrincipal);
@@ -81,7 +78,9 @@
       return null;
   } /* end of displayTermTotals() */
 
-
+  /*
+   ** .form object defintion and data collection.
+   */
   function createFormData() {
 
       let formData = {
@@ -102,7 +101,9 @@
 
   } /* end of createFormData() */
 
-
+  /*
+   ** .perform simple validation to ensure accurate calculations.
+   */
   function validateFormData(formData) {
       let errMsg = "";
       let errFldName = "";
@@ -128,7 +129,7 @@
               errMsg = `Please contact us for loans over $10,000,000.00`;
           }
           if (parseInt(formData.totLoanMonthNum) > 360) {
-              errMsg = `We would like to limit the term to 30 years or less please.`;
+              errMsg = `We would like to limit the term to 30 years (360 months) or less please.`;
           }
 
 
@@ -164,10 +165,7 @@
 
   /*
    ** .Calculate all rows for the payment information and summary data
-   **  using the new object.
-   **
-   **
-   **
+   **  using complex object.
    */
   function createPaymentDataArray(formData) {
 
@@ -249,6 +247,10 @@
       //   return tbl_paymentArr;
   } /* end of createPaymentDataArray() */
 
+  /*
+   ** .Loop through the array within the object and update the template html
+   ** .end with a call to display summary information.
+   */
   function displayPaymentObjData(paymentObjData) {
       const template = document.getElementById("Payment-Data-Template");
       const resultsBody = document.getElementById("resultsBody");
@@ -274,18 +276,11 @@
       }
 
       /*
-       ** .Running totals are calculated on iterations.  This impacts monthly values are rates are recalculated.
-       ** .Update the global variables for total cost displays.
-       ** .displayTermTotals() references the global totals.
+       ** .Display the summary totals.
        */
-      displayTermTotals(paymentObjData, paymentObjData.summary_data.payment,
-          paymentObjData.summary_data.totalPrincipal,
-          paymentObjData.summary_data.totalInterest,
-          paymentObjData.summary_data.totalCost);
+      displayTermTotals(paymentObjData);
 
       return null;
-
-
   } /* end of displayPaymentObjData() */
 
 
